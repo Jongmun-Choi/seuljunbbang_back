@@ -39,11 +39,10 @@ exports.newMenu = async (req, res) => {
         const newMenuId = menuResult.insertId;
 
         const uploadPromises = file.map(async (image) => {
-            const uniqueueFileName = `menus/${newMenuId}-${uuidv4()}.${path.extname(image.originalname).replace('.', '')}`;
-
+            const uniqueFileName = `menus/${newMenuId}-${uuidv4()}.${path.extname(image.originalname).replace('.', '')}`;
             const params = {
                 Bucket: process.env.S3_BUCKET_NAME,
-                Key: uniqueueFileName,
+                Key: uniqueFileName,
                 Body: image.buffer,
                 ContentType: image.mimetype
             };
@@ -57,7 +56,7 @@ exports.newMenu = async (req, res) => {
 
         const imageUrls = await Promise.all(uploadPromises);
 
-        const imageSql = `INSERT INTO MenuImages (menu_id, image_url, is_main) VALUES ?`;
+        const imageSql = `INSERT INTO menu_image (menu_id, image_url, is_main) VALUES ?`;
         const imageValues = imageUrls.map((url, index) => [newMenuId, url, index === 0]);
         await connection.query(imageSql, [imageValues]);
 
