@@ -42,7 +42,7 @@ exports.newMenu = async (req, res) => {
             const uniqueueFileName = `menus/${newMenuId}-${uuidv4()}.${path.extname(image.originalname).replace('.', '')}`;
 
             const params = {
-                Bucket: process.env.AWS_BUCKET_NAME,
+                Bucket: process.env.S3_BUCKET_NAME,
                 Key: uniqueueFileName,
                 Body: image.buffer,
                 ContentType: image.mimetype
