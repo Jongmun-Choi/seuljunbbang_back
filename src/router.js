@@ -1,8 +1,14 @@
 const express = require("express");
 const router = express.Router();
-
-// const multer = require("multer");
+const multer = require("multer");
 // const upload = multer({dest: "storage/"});
+
+const uploader = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+        fileSize: 1024 * 1024 * 5
+    }
+});
 
 const webController = require("./web/controller");
 
@@ -30,7 +36,7 @@ router.post("/api/user/my", apiUserController.update);
 router.get("/api/user/my", apiUserController.show);
 
 router.get("/api/menu", apiMenuController.index);
-router.post("/api/menu", apiMenuController.newMenu);
+router.post("/api/menu", uploader.array("images",5), apiMenuController.newMenu);
 router.get("/api/menu/:id", apiMenuController.show);
 router.put("api/menu/:id", apiMenuController.edit);
 router.delete("/api/menu/:id", apiMenuController.delete);
