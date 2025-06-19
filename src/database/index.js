@@ -1,8 +1,9 @@
 const mysql = require('mysql2/promise');
+require('dotenv').config();
 // mysql.createPool()을 사용하여 커넥션 풀을 생성합니다.
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
-    user: process.env.DB_USER,
+    user: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     waitForConnections: true,

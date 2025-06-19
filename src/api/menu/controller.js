@@ -27,13 +27,14 @@ exports.newMenu = async (req, res) => {
     try {
         connection = await dbPool.getConnection()
     }catch (error) {
+        console.error("연결실패:", error)
         return res.status(500).json({ message: "데이터베이스 연결에 실패했습니다."});
     }
 
     try {
         await connection.beginTransaction();
 
-        const menuSql = `INSERT INTO menus (name, description, price, is_available) VALUES (?, ?, ?, ?)`;
+        const menuSql = `INSERT INTO Menus (name, description, price, is_available) VALUES (?, ?, ?, ?)`;
         const [menuResult] = await connection.execute(menuSql, [name, description, price, is_available || true]);
         const newMenuId = menuResult.insertId;
 
