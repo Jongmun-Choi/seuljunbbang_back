@@ -56,7 +56,7 @@ exports.newMenu = async (req, res) => {
 
         const imageUrls = await Promise.all(uploadPromises);
 
-        const imageSql = `INSERT INTO menu_image (menu_id, image_url, is_main) VALUES ?`;
+        const imageSql = `INSERT INTO MenuImages (menu_id, image_url, is_main) VALUES ?`;
         const imageValues = imageUrls.map((url, index) => [newMenuId, url, index === 0]);
         await connection.query(imageSql, [imageValues]);
 
